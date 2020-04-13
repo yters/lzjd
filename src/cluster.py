@@ -17,13 +17,8 @@ for p in pairs:
         elif a in c: c_a = c
         elif b in c: c_b = c 
         if c_a and c_b: break
-    addition = True
     if not c_a and not c_b: clusters += [set([a, b])]
     elif not c_a: c_b.add(a)
     elif not c_b: c_a.add(b)
-    else: addition = False
-    if addition: 
-        hubs += [a]
-        hubs += [b]
 for i, c in enumerate(clusters):
     print('cluster ' + str(i) + ': ' + ', '.join(c))
