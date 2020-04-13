@@ -1,7 +1,10 @@
-cluster 0: cow, harborSeal, dog, pig, fatDormouse, graySeal, indianRhinoceros, guineaPig, whiteRhinoceros, cat, mouse, rat, hippopotamus
-cluster 1: gorilla, baboon, human, chimpanzee, pigmyChimpanzee
+cluster 0: graySeal, harborSeal
+cluster 1: gorilla, human, baboon, pigmyChimpanzee, chimpanzee
 cluster 2: blueWhale, finWhale
 cluster 3: donkey, horse
-cluster 4: gibbon, orangutan
-cluster 5: sheep, squirrel, aardvark, platypus, wallaroo, opossum, armadillo, rabbit, elephant, fruitBat
-cluster 6: randgen3, randgen2, randgen1, randgen0
+cluster 4: rat, indianRhinoceros, cow, whiteRhinoceros, hippopotamus
+cluster 5: gibbon, orangutan
+cluster 6: sheep, cat, dog, pig
+cluster 7: aardvark, platypus, wallaroo, opossum, armadillo, rabbit, elephant, fruitBat
+cluster 8: guineaPig, fatDormouse, mouse, squirrel
+cluster 9: randgen3, randgen2, randgen1, randgen0

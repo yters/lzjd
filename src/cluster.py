@@ -4,8 +4,10 @@ from collections import Counter
 pairs = []
 for line in open(sys.argv[1]).read().splitlines():
     a, b, d = line.split('|')
-    d = int(d)
+    d = float(d)
     pairs += [(a,b,d)]
+
+pairs = sorted(pairs, key = lambda x: x[2])
 
 clusters = []
 for p in pairs:
