@@ -14,7 +14,7 @@ python src/all_pairs_dist.py info/animals.txt scratch lzd | sort -n -k 3 -t '|' 
 echo 
 
 echo 'Generating results/clusters.txt from results/all_lzd.pairs'
-python src/cluster.py results/all_lzd.pairs lzd > results/clusters.txt
+python src/cluster.py results/all_lzd.pairs > results/clusters.txt
 echo
 
 echo 'All done!'
