@@ -3,10 +3,10 @@
 Requirements: In order to run the code, you'll need to be in a Linux environment with either Python2 or Python3 installed.
 
 ## Synopsis
-Test the Lempel-Ziv Jaccard Distance (LZJD) metric to cluster mitochondrial proteins from 38 mammals.
+Test the Lempel-Ziv Jaccard Distance (LZJD) metric to cluster mitochondrial proteins from 34 mammals.
 
 ## Repo Overview
-This repo contains 12 concatenated mitochondrial proteins from 38 mammals in the `data` directory.  The proteins are represented as DNA sequences.  There are also four randomly generated DNA sequences as a sanity check.
+This repo contains 12 concatenated mitochondrial proteins from 34 mammals in the `data` directory.  The proteins are represented as DNA sequences.  There are also four randomly generated DNA sequences as a sanity check.
 
 The scripts to measure the pairwise LZJD between all the mammals is in the `src` directory.
 
