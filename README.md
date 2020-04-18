@@ -1,23 +1,10 @@
-# Experiment: clustering mammals with the Lempel Ziv Jaccard Distance
+# Clustering mammals with the Lempel Ziv Jaccard Distance
 
-Requirements: In order to run the code, you'll need to be in a Linux environment with either Python2 or Python3 installed.
-
-## Synopsis
-Test the Lempel-Ziv Jaccard Distance (LZJD) metric to cluster mitochondrial proteins from 34 mammals.
-
-## Repo Overview
-This repo contains 12 concatenated mitochondrial proteins from 34 mammals in the `data` directory.  The proteins are represented as DNA sequences.  There are also four randomly generated DNA sequences as a sanity check.
-
-The scripts to measure the pairwise LZJD between all the mammals is in the `src` directory.
+This repo contains 12 concatenated mitochondrial proteins from each of 34 mammals in the `data` directory.  The proteins are represented as DNA sequences.  There are also four randomly generated DNA sequences as a sanity check.
 
 To cluster the mammals' proteins, run the following command:
 ```
-./src/measure_and_cluster.sh
-```
-
-You'll see the clustered mammals in:
-```
-./results/clusters.txt
+python cluster.py data
 ```
 
 If the LZJD metric works correctly, you should see an intuitive clustering of the mammals, and the random genomes clustered separately from the mammals.
