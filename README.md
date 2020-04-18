@@ -23,3 +23,6 @@ The LZJD metric is defined in:
 
 A much more optimized implementation of LZJD can be found at:
 - https://github.com/EdwardRaff/jLZJD
+
+Inspiration for investigating 'alignment free' similarity.
+- Ewert, W. (2018). The dependency graph of life. BIO-Complexity, 2018.
