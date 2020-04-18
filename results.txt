@@ -1,0 +1,15 @@
+Loading sequences.
+Creating dictionaries.
+Calculating pairwise distance.
+Building clusters.
+Results:
+cluster 0: sheep, cat, dog, pig
+cluster 1: gorilla, human, baboon, pigmyChimpanzee, chimpanzee
+cluster 2: rat, indianRhinoceros, cow, whiteRhinoceros, hippopotamus
+cluster 3: blueWhale, finWhale
+cluster 4: graySeal, harborSeal
+cluster 5: donkey, horse
+cluster 6: gibbon, orangutan
+cluster 7: aardvark, platypus, wallaroo, opossum, armadillo, rabbit, elephant, fruitBat
+cluster 8: guineaPig, fatDormouse, mouse, squirrel
+cluster 9: randgen3, randgen2, randgen1, randgen0

@@ -7,7 +7,7 @@ To cluster the mammals' proteins, run the following command:
 python cluster.py data
 ```
 
-If the LZJD metric works correctly, you should see an intuitive clustering of the mammals, and the random genomes clustered separately from the mammals.
+If the LZJD metric works correctly, you should see an intuitive clustering of the mammals, and the random genomes clustered separately from the mammals.  Look in the `results.txt` file to see an example run.
 
 You can run this script on any directory of files, and see the results.  Just replace `data` in the previous command with the path to the directory.
 
