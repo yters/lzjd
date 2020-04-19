@@ -5,48 +5,40 @@ from collections import Counter
 
 # Dictionary of unique subsequences, built from previous unique subsequences.
 def lzd(sequence):
-    d = {}
+    d = set() 
     w = ''
     for c in sequence:
         w += c
         if not w in d:
-            d[w] = 1
+            d.add(w)
             w = ''
     return d
 
+# Turn set into hashmap.
+def mapify(d): return {w: 1 for w in d}
+
 # Merge dictionaries using uniqueness suffix to preserve metric.
-def merge_dcts(a, b):
-    for w in b:
-        a[w] = a.get(w, 0) + 1
-    return a
+def merge_dcts(a, b): return {w: a.get(w, 0) + 1 for w in b}
 
 # Break sequence into smaller blocks, create LZ dictionaries, then merge the dictionaries.
-def lzd_blocks(sequence, block_size):
+def lzd_blocks(seq, block_size):
     d = {}
-    for i in range(0, len(sequence), block_size):
-        d = merge_dcts(d, lzd(sequence[i:i+block_size]))
+    for i in range(0, len(seq), block_size):
+        d = merge_dcts(d, mapify(lzd(seq[i:i+block_size])))
     return d
 
-# Sort set by hashcode and take the lower 2048.
-def min_hash(dictionary, bottom_count=2048): 
-    min_hash_keys = sorted(dictionary.keys(), key=lambda x: hash(x))[0:bottom_count]
-    min_hash_dictionary = {}
-    dct_size = 0
-    for k in min_hash_keys:
-        count = dictionary[k] - max(dct_size + dictionary[k] - bottom_count, 0)
-        min_hash_dictionary[k] = count
-        dct_size += count
-        if dct_size == bottom_count:
-            break
-    return min_hash_dictionary
+# Make duplicates unique with a unique prefix.
+# Prefix cannot be part of alphabet.
+prefix = '_'
+def uniquify(d): 
+    u = set()
+    for w, v in d.items():
+        for i in range(v):
+            u.add(w + prefix * i)
+    return u
 
 # Probability of randomly selected item appearing in both sets.
-def js(a, b): 
-    inter_keys = set(a.keys()) & set(b.keys())
-    inter_count = sum([min(a[w], b[w]) for w in inter_keys])
-    union_keys = set(a.keys()) | set(b.keys())
-    union_count = sum([max(a.get(w, 0), b.get(w, 0)) for w in union_keys])
-    return inter_count/float(union_count)
+def js(a, b): return len(a & b) / len(a | b)
 
 # Add each sequence to the cluster with the most similar sequence.
 def nearest_neighbor_cluster(triplets):
@@ -70,10 +62,14 @@ if __name__ == "__main__":
 
     print('Loading sequences.')
     path = sys.argv[1]
-    sequences = {name: open(os.path.join(path, name)).read() for name in os.listdir(path)}
+    sequences = {name: open(os.path.join(path, name)).read().rstrip() for name in os.listdir(path)}
 
     print('Creating dictionaries.')
-    dictionaries = {name: min_hash(lzd_blocks(g, block_size), bottom_size) for name, g in sequences.items()}
+    dictionaries = {}
+    for name, seq in sequences.items():
+        uniq_dct = uniquify(lzd_blocks(seq, block_size))
+        min_hash = set(sorted(uniq_dct, key=lambda x: hash(x))[0:bottom_size])
+        dictionaries[name] = min_hash
 
     print('Calculating pairwise distance.')
     dcts = dictionaries
@@ -84,4 +80,4 @@ if __name__ == "__main__":
 
     print('Results:')
     for i, cltr in enumerate(clusters):
-        print('cluster ' + str(i) + ': ' + ', '.join(cltr))
+        print(', '.join(sorted(cltr)))
