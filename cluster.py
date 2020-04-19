@@ -45,7 +45,7 @@ def js(a, b):
     inter_keys = set(a.keys()) & set(b.keys())
     inter_count = sum([min(a[w], b[w]) for w in inter_keys])
     union_keys = set(a.keys()) | set(b.keys())
-    union_count = sum([max(a.get(w, 0), b.get(w, 0)) for w in inter_keys])
+    union_count = sum([max(a.get(w, 0), b.get(w, 0)) for w in union_keys])
     return inter_count/float(union_count)
 
 # Add each sequence to the cluster with the most similar sequence.
