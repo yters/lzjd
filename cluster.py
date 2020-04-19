@@ -33,7 +33,7 @@ def min_hash(dictionary, bottom_count=2048):
     min_hash_dictionary = {}
     dct_size = 0
     for k in min_hash_keys:
-        count = dictionary[k] - max(dct_size - bottom_count, 0)
+        count = dictionary[k] - max(dct_size + dictionary[k] - bottom_count, 0)
         min_hash_dictionary[k] = count
         dct_size += count
         if dct_size == bottom_count:
