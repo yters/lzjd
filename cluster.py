@@ -13,6 +13,34 @@ def lzd(sequence):
             w = ''
     return d
 
+# Merge dictionaries using uniqueness prefix to preserve metric.
+prefix = '_' # Ok if part of the alphabet.
+def merge_dcts(a, b):
+    d = set()
+    a_s = sorted(a, reverse=True)
+    b_s = sorted(b, reverse=True)
+    while a_s or b_s:
+        if a_s and (not b_s or a_s[-1] <= b_s[-1]):
+            w = a_s[-1]
+            while w in d:
+                w = prefix + w
+                d.add(w)
+            a_s.pop()
+        if b_s and (not a_s or a_s[-1] >= b_s[-1]):
+            w = b_s[-1]
+            while w in d:
+                w = prefix + w
+                d.add(w)
+            b_s.pop()
+    return d
+
+# Break sequence into smaller blocks, create LZ dictionaries, then merge the dictionaries.
+def lzd_blocks(sequence, block_size):
+    d = set()
+    for i in range(0, len(sequence), block_size):
+        d = merge_dcts(d, sequence[i:i+block_size])
+    return d
+
 # Probability of randomly selected item appearing in both sets.
 def js(a, b): return len(a & b)/float(len(a | b))
 
@@ -36,7 +64,7 @@ if __name__ == "__main__":
     sequences = {name: open(os.path.join(path, name)).read() for name in os.listdir(path)}
 
     print('Creating dictionaries.')
-    dictionaries = {name: lzd(g) for name, g in sequences.items()}
+    dictionaries = {name: lzd_blocks(g, 16) for name, g in sequences.items()}
 
     print('Calculating pairwise distance.')
     dcts = dictionaries
