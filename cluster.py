@@ -15,7 +15,6 @@ def lzd(sequence):
     return d
 
 # Merge dictionaries using uniqueness suffix to preserve metric.
-suffix = '_' # Can be anything
 def merge_dcts(a, b):
     for w in b:
         a[w] = a.get(w, 0) + 1
