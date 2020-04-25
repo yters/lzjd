@@ -63,7 +63,7 @@ def triangle(pairs):
         for j in range(0, i):
             if i == j: continue
             c = tuple(sorted([items[i], items[j]]))
-            for k in range(j, i):
+            for k in range(0, j):
                 if i == k: continue
                 if j == k: continue
                 a = tuple(sorted([items[i], items[k]]))
