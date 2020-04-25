@@ -41,6 +41,17 @@ def uniquify(d):
 def js(a, b): return len(a & b) / len(a | b)
 
 # Test the triangle inequality.
+def count_tests(n):
+    count = 0
+    for i in range(n):
+        for j in range(0, i):
+            if i == j: continue
+            for k in range(j, i):
+                if i == k: continue
+                if j == k: continue
+                count += 1
+    return count
+
 def triangle(pairs):
     violations = 0
     items = set()
@@ -98,10 +109,14 @@ if __name__ == "__main__":
 
     print('Test triangle inequality:')
     pairs = {}
+    items = set()
     for d, a, b in triplets:
         pairs[tuple(sorted([a, b]))] = d
+        items.add(a)
+        items.add(b)
     violations = triangle(pairs)
-    print(str(violations) + ' violations.')
+    tests = count_tests(len(items))
+    print(str(violations) + ' violations out of ' + str(tests) + ' tests, ' + str(int(round(violations/tests,2)*100)) + '%.')
 
     print('Building clusters.')
     clusters = nearest_neighbor_cluster(triplets)
