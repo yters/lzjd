@@ -41,18 +41,11 @@ def uniquify(d):
 def js(a, b): return len(a & b) / len(a | b)
 
 # Test the triangle inequality.
-def count_tests(n):
-    count = 0
-    for i in range(n):
-        for j in range(0, i):
-            if i == j: continue
-            for k in range(j, i):
-                if i == k: continue
-                if j == k: continue
-                count += 1
-    return count
-
+test_count = 0
 def triangle(pairs):
+    global test_count
+    test_count = 0
+    possibility = set()
     violations = 0
     items = set()
     for a, b in pairs.keys():
@@ -63,13 +56,17 @@ def triangle(pairs):
         for j in range(0, i):
             if i == j: continue
             c = tuple(sorted([items[i], items[j]]))
+            if pairs[c] < 0.5:
+                possibility.add(c)
             for k in range(0, j):
                 if i == k: continue
                 if j == k: continue
+                test_count += 1
                 a = tuple(sorted([items[i], items[k]]))
                 b = tuple(sorted([items[j], items[k]]))
-                if pairs[c] > pairs[a] + pairs[b]:
+                if 1 - pairs[c] > (1 - pairs[a]) + (1 - pairs[b]):
                     violations += 1
+    print(len(possibility), 'possible violations.')
     return violations
 
 # Add each sequence to the cluster with the most similar sequence.
@@ -115,8 +112,7 @@ if __name__ == "__main__":
         items.add(a)
         items.add(b)
     violations = triangle(pairs)
-    tests = count_tests(len(items))
-    print(str(violations) + ' violations out of ' + str(tests) + ' tests, ' + str(int(round(violations/tests,2)*100)) + '%.')
+    print(str(violations) + ' violations out of ' + str(test_count) + ' tests, ' + str(int(round(violations/test_count,2)*100)) + '%.')
 
     print('Building clusters.')
     clusters = nearest_neighbor_cluster(triplets)
