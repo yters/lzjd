@@ -1,25 +1,12 @@
 import os
 import sys
 from itertools import combinations
-
-# Dictionary of unique subsequences, built from previous unique subsequences.
-def lzd(sequence):
-    d = set()
-    w = ''
-    for c in sequence:
-        w += c
-        if not w in d:
-            d.add(w)
-            w = ''
-    return d
-
-# Probability of randomly selected item appearing in both sets.
-def js(a, b): return len(a & b)/float(len(a | b))
+import Levenshtein
 
 # Add each sequence to the cluster with the most similar sequence.
 def nearest_neighbor_cluster(triplets):
     index = {}
-    for _, a, b in sorted(triplets, reverse=True):
+    for _, a, b in sorted(triplets):
         if not a in index: 
             cluster = index.get(b, set())
             cluster.update([a, b])
@@ -35,12 +22,18 @@ if __name__ == "__main__":
     path = sys.argv[1]
     sequences = {name: open(os.path.join(path, name)).read() for name in os.listdir(path)}
 
-    print('Creating dictionaries.')
-    dictionaries = {name: lzd(g) for name, g in sequences.items()}
-
-    print('Calculating pairwise distance.')
-    dcts = dictionaries
-    triplets = [(js(dcts[a], dcts[b]), a, b) for a, b in combinations(dcts.keys(), 2)]
+    print('Calculating pairwise edit distance.')
+    triplets = []
+    if len(sys.argv) > 2:
+        for line in open(sys.argv[2]).read().splitlines():
+            if not '>' in line: continue
+            d, a, b = line.split('>')[1].split('|')
+            triplets.append((int(d), a.strip(), b.strip()))
+    else:
+        for i, (a, b) in enumerate(combinations(sequences.keys(), 2)):
+            d = Levenshtein.distance(sequences[a], sequences[b])
+            print(i,'/',len(list(combinations(sequences.keys(), 2))),'>',d,'|',a,'|',b)
+            triplets.append((d, a, b))
 
     print('Building clusters.')
     clusters = nearest_neighbor_cluster(triplets)
