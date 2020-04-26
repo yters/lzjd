@@ -100,23 +100,16 @@ if __name__ == "__main__":
         min_hash = set(sorted(uniq_dct, key=lambda x: hash(x))[0:bottom_size])
         dictionaries[name] = min_hash
 
-    print('Calculating pairwise distance.')
-    dcts = dictionaries
-    triplets = [(js(dcts[a], dcts[b]), a, b) for a, b in combinations(dcts.keys(), 2)]
-
-    print('Test triangle inequality:')
-    pairs = {}
-    items = set()
-    for d, a, b in triplets:
-        pairs[tuple(sorted([a, b]))] = d
-        items.add(a)
-        items.add(b)
-    violations = triangle(pairs)
-    print(str(violations) + ' violations out of ' + str(test_count) + ' tests, ' + str(int(round(violations/test_count,2)*100)) + '%.')
-
-    print('Building clusters.')
-    clusters = nearest_neighbor_cluster(triplets)
-
-    print('Results:')
-    for i, cltr in enumerate(clusters):
-        print(', '.join(sorted(cltr)))
+    print('Invert index.')
+    inv_index = {}
+    for name, min_hash in dictionaries.items():
+        for term in min_hash:
+            inv_index[term] = inv_index.get(term, set()) | set([name])
+    
+    query = 'human'
+    freqs = {}
+    for term in dictionaries[sys.argv[4]]:
+        for name in inv_index[term]:
+            freqs[name] = freqs.get(name, 0) + 1
+    print(len(dictionaries[query]))
+    print(sorted(freqs.items(), key = lambda x: x[1]))
