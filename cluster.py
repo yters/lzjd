@@ -1,12 +1,12 @@
 import os
 import sys
 from itertools import combinations
-import Levenshtein
+import hamming
 
 # Add each sequence to the cluster with the most similar sequence.
 def nearest_neighbor_cluster(triplets):
     index = {}
-    for _, a, b in sorted(triplets):
+    for _, a, b in sorted(triplets, reverse=True):
         if not a in index: 
             cluster = index.get(b, set())
             cluster.update([a, b])
@@ -22,7 +22,7 @@ if __name__ == "__main__":
     path = sys.argv[1]
     sequences = {name: open(os.path.join(path, name)).read() for name in os.listdir(path)}
 
-    print('Calculating pairwise edit distance.')
+    print('Calculating pairwise hamming.')
     triplets = []
     if len(sys.argv) > 2:
         for line in open(sys.argv[2]).read().splitlines():
@@ -31,7 +31,7 @@ if __name__ == "__main__":
             triplets.append((int(d), a.strip(), b.strip()))
     else:
         for i, (a, b) in enumerate(combinations(sequences.keys(), 2)):
-            d = Levenshtein.distance(sequences[a], sequences[b])
+            d = hamming.hamming(sequences[a], sequences[b])
             print(i,'/',len(list(combinations(sequences.keys(), 2))),'>',d,'|',a,'|',b)
             triplets.append((d, a, b))
 
