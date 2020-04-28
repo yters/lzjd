@@ -1,12 +1,12 @@
 import os
 import sys
 from itertools import combinations
-import hamming
+from hamming import hamming
 
 # Add each sequence to the cluster with the most similar sequence.
 def nearest_neighbor_cluster(triplets):
     index = {}
-    for _, a, b in sorted(triplets, reverse=True):
+    for _, a, b in sorted(triplets, reverse=False):
         if not a in index: 
             cluster = index.get(b, set())
             cluster.update([a, b])
@@ -31,7 +31,7 @@ if __name__ == "__main__":
             triplets.append((int(d), a.strip(), b.strip()))
     else:
         for i, (a, b) in enumerate(combinations(sequences.keys(), 2)):
-            d = hamming.hamming(sequences[a], sequences[b])
+            d = hamming(sequences[a], sequences[b])
             print(i,'/',len(list(combinations(sequences.keys(), 2))),'>',d,'|',a,'|',b)
             triplets.append((d, a, b))
 
